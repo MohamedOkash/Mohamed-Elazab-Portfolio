@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { PhotoProvider, PhotoView } from 'react-photo-view';
-import Reveal from '../components/animations/Reveal';
 import ImageWithSkeleton from '../components/ImageWithSkeleton';
+import { sanitizeUrl } from '../utils/security';
 import { getImageTiers } from '../utils/imageHelper';
 import { MapPin, ExternalLink as Instagram } from 'lucide-react';
 
@@ -94,7 +94,7 @@ export default function GalleryContent({ gallery, isRTL }) {
                 return (
                   <div key={item.id || idx} className="break-inside-avoid relative overflow-hidden rounded-lg bg-zinc-950/20">
                       {item.instagramLink ? (
-                        <a href={item.instagramLink} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+                        <a href={sanitizeUrl(item.instagramLink)} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
                           {content}
                         </a>
                       ) : (

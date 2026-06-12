@@ -18,6 +18,16 @@ export default function Contact({
   const [date, setDate] = useState('');
   const [sessionType, setSessionType] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const sessionOptions = [
+    { value: 'wedding', labelAr: 'جلسة زفاف كاملة', labelEn: 'Wedding Session' },
+    { value: 'half_day', labelAr: 'نصف يوم', labelEn: 'Half Day' },
+    { value: 'full_day', labelAr: 'يوم كامل', labelEn: 'Full Day' },
+    { value: 'vib', labelAr: 'جلسة VIB', labelEn: 'VIB Session' },
+    { value: 'vib_plus', labelAr: 'جلسة VIB PLUS المميزة', labelEn: 'VIB PLUS Signature Session' },
+    { value: 'other', labelAr: 'أخرى', labelEn: 'Other' }
+  ];
 
   const address = isRTL
     ? (settings?.contactInfo?.addressAr || 'ميت غراب، السنبلاوين، الدقهلية - بجوار مسجد الأربعين')
@@ -177,6 +187,8 @@ export default function Contact({
                     className={`w-full bg-transparent border-b ${colors.border} py-3 px-0 ${colors.textMain} focus:outline-none focus:border-theme-accent transition-colors peer font-light placeholder-transparent`}
                     placeholder="dd / mm / yyyy"
                     id="date"
+                    dir="ltr"
+                    style={{ textAlign: isRTL ? 'right' : 'left' }}
                   />
                   <label
                     htmlFor="date"
@@ -187,29 +199,50 @@ export default function Contact({
                 </div>
               </div>
 
-              {/* Session Type Select */}
+              {/* Custom Session Type Select */}
               <div className="relative">
-                <select
-                  required
-                  value={sessionType}
-                  onChange={(e) => setSessionType(e.target.value)}
-                  className={`w-full bg-transparent border-b ${colors.border} py-3 px-0 ${colors.textMain} focus:outline-none focus:border-theme-accent transition-colors peer font-light appearance-none`}
-                  style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}
+                <div
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className={`w-full bg-transparent border-b ${colors.border} py-3 px-0 ${colors.textMain} focus:outline-none transition-colors font-light flex justify-between items-center cursor-pointer`}
                 >
-                  <option value="" disabled style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>
-                    {isRTL ? 'نوع الجلسة...' : 'Session Type...'}
-                  </option>
-                  <option value="wedding" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'جلسة زفاف كاملة' : 'Wedding Session'}</option>
-                  <option value="half_day" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'نصف يوم' : 'Half Day'}</option>
-                  <option value="full_day" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'يوم كامل' : 'Full Day'}</option>
-                  <option value="vib" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'جلسة VIB' : 'VIB Session'}</option>
-                  <option value="vib_plus" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'جلسة VIB PLUS المميزة' : 'VIB PLUS Signature Session'}</option>
-                  <option value="other" style={{ backgroundColor: isDark ? '#09090b' : '#ffffff', color: isDark ? '#ffffff' : '#000000' }}>{isRTL ? 'أخرى' : 'Other'}</option>
-                </select>
-                <ChevronDown 
-                  className={`absolute ${isRTL ? 'left-0' : 'right-0'} top-4 w-4 h-4 text-zinc-500 pointer-events-none`}
-                  aria-hidden="true"
-                />
+                  <span className={sessionType ? 'text-current' : 'text-zinc-500 font-light'}>
+                    {!sessionType 
+                      ? (isRTL ? 'نوع الجلسة...' : 'Session Type...') 
+                      : sessionOptions.find(o => o.value === sessionType)?.[isRTL ? 'labelAr' : 'labelEn']}
+                  </span>
+                  <ChevronDown 
+                    className={`w-4 h-4 text-zinc-500 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`}
+                    aria-hidden="true"
+                  />
+                </div>
+                {dropdownOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-[60]" 
+                      onClick={() => setDropdownOpen(false)}
+                    />
+                    <div 
+                      className={`absolute top-full ${isRTL ? 'right-0' : 'left-0'} mt-1 w-full z-[70] border ${colors.border} rounded shadow-lg max-h-60 overflow-y-auto ${isDark ? 'bg-[#000000] text-[#ffffff]' : 'bg-[#ffffff] text-[#000000]'}`}
+                    >
+                      {sessionOptions.map((option) => (
+                        <div
+                          key={option.value}
+                          onClick={() => {
+                            setSessionType(option.value);
+                            setDropdownOpen(false);
+                          }}
+                          className={`px-4 py-3 cursor-pointer text-sm transition-colors duration-200 ${
+                            sessionType === option.value 
+                              ? (isDark ? 'bg-zinc-800' : 'bg-zinc-100') 
+                              : (isDark ? 'hover:bg-zinc-900' : 'hover:bg-zinc-50')
+                          }`}
+                        >
+                          {isRTL ? option.labelAr : option.labelEn}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
               {errorMsg && (

@@ -83,6 +83,7 @@ export const MainLayout = ({
           isRTL={isRTL}
           isDark={isDark}
           handleLogout={handleLogout}
+          settings={settings}
         />
 
         {/* Route Outlet with Premium Transition */}

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import { Plus, Trash2, RefreshCw, Save, ArrowUp, ArrowDown } from 'lucide-react';
 import { getOptimizedImageUrl } from '../../utils/imageHelper';
 import TranslateButton from '../../components/TranslateButton';
@@ -34,32 +34,6 @@ export default function GalleryTab({
     handleGalleryCategoryChange(idx, value);
     setDirtyItems(prev => new Set(prev).add(formData.gallery[idx]?.id));
   };
-
-  const handleGlobalSave = async () => {
-    if (!saveGalleryData) return;
-    setIsSavingGlobal(true);
-    await saveGalleryData();
-    setDirtyItems(new Set());
-    setIsSavingGlobal(false);
-  };
-
-  const handleItemSave = async (idx, id) => {
-    if (!saveGalleryData) return;
-    setSavingItemIds(prev => new Set(prev).add(id));
-    await saveGalleryData(); // Save global state for now since firestore doesn't easily isolate array items without a dedicated collection
-    
-    setDirtyItems(prev => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
-    setSavingItemIds(prev => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
-  };
-
   // Provide fallback save function if not passed
   const executeSave = saveGalleryData || (async () => {
     console.warn("saveGalleryData not provided from parent, simulating save...");

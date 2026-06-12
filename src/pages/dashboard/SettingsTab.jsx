@@ -139,6 +139,45 @@ export default function SettingsTab({
         </div>
       </div>
 
+      {/* Brand Text Settings */}
+      <div className="border-t border-zinc-900 pt-6 space-y-5">
+        <span className="block text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+          {isRTL ? "نص الشعار الفخم" : "Brand Text Settings"}
+        </span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-[10px] text-zinc-500 uppercase mb-1.5">{isRTL ? "الرمز (حرفين)" : "Monogram"}</label>
+            <input
+              type="text"
+              value={formData.settings?.logoMonogram || ''}
+              placeholder="e.g. AZ"
+              onChange={(e) => handleGlobalFieldChange('settings', 'logoMonogram', e.target.value)}
+              className="w-full bg-zinc-950 border border-zinc-900 rounded p-2.5 text-xs text-zinc-300 focus:border-theme-accent focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] text-zinc-500 uppercase mb-1.5">{isRTL ? "الاسم الرئيسي" : "Brand Name"}</label>
+            <input
+              type="text"
+              value={formData.settings?.logoText || ''}
+              placeholder="e.g. MOHAMED AZAB"
+              onChange={(e) => handleGlobalFieldChange('settings', 'logoText', e.target.value)}
+              className="w-full bg-zinc-950 border border-zinc-900 rounded p-2.5 text-xs text-zinc-300 focus:border-theme-accent focus:outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] text-zinc-500 uppercase mb-1.5">{isRTL ? "اللقب السفلي" : "Subtitle"}</label>
+            <input
+              type="text"
+              value={formData.settings?.logoSubtitle || ''}
+              placeholder="e.g. PHOTOGRAPHY"
+              onChange={(e) => handleGlobalFieldChange('settings', 'logoSubtitle', e.target.value)}
+              className="w-full bg-zinc-950 border border-zinc-900 rounded p-2.5 text-xs text-zinc-300 focus:border-theme-accent focus:outline-none"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Theme Accent Color */}
       <div>
         <label className="block text-xs uppercase tracking-widest text-zinc-500 mb-2">

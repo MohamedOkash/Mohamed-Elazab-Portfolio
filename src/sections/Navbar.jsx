@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Sun, Moon, X, Menu } from 'lucide-react';
+import BrandLogo from '../components/BrandLogo';
 
 export default function Navbar({
   lang,
@@ -13,7 +14,8 @@ export default function Navbar({
   isScrolled,
   isAdmin,
   colors,
-  isRTL
+  isRTL,
+  settings
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -118,15 +120,21 @@ export default function Navbar({
             className="flex flex-col items-start cursor-pointer group"
             aria-label="M. Elazab Photography Logo"
           >
-            <span
-              className={`text-2xl font-light tracking-widest uppercase ${colors.textMain} transition-colors group-hover:text-theme-accent`}
-              style={{ fontFamily: 'serif' }}
-            >
-              M. ELAZAB
-            </span>
-            <span className="text-[0.65rem] tracking-[0.3em] text-theme-accent mt-1 opacity-80 group-hover:opacity-100 transition-opacity">
-              PHOTOGRAPHY
-            </span>
+            {settings?.logo && (settings.logo.startsWith('http') || settings.logo.includes('/')) && settings.logo !== 'M. ELAZAB' ? (
+              <img 
+                src={settings.logo} 
+                alt="Brand Logo" 
+                className="object-contain select-none h-[50px] lg:h-[70px] transition-transform duration-300 group-hover:scale-105"
+              />
+            ) : (
+              <BrandLogo 
+                isDark={theme === 'luxury-black-gold'} 
+                className="scale-75 origin-left"
+                monogram={settings?.logoMonogram || "AZ"}
+                title={settings?.logoText || "MOHAMED AZAB"}
+                subtitle={settings?.logoSubtitle || "PHOTOGRAPHY"}
+              />
+            )}
           </Link>
 
           {/* Desktop Links */}

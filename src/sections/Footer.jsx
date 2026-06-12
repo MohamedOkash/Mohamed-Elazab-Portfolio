@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MessageSquare, Copy, Check, X } from 'lucide-react';
 import Reveal from '../components/animations/Reveal';
+import BrandLogo from '../components/BrandLogo';
+import { sanitizeUrl } from '../utils/security';
 import { TikTokIcon, WhatsAppBrandIcon, InstagramIcon, FacebookIcon } from '../components/Icons';
 
 const formatPhone = (phoneStr) => {
@@ -44,7 +46,6 @@ export default function Footer({
   }, []);
 
   // Resolve Photographer Details from CMS Settings
-  const logoText = settings?.logo || 'M. ELAZAB';
   const studioTitle = isRTL 
     ? (settings?.siteName || 'ستوديو محمد العزب للتصوير') 
     : (settings?.siteName || 'Mohamed Elazab Studio');
@@ -80,15 +81,21 @@ export default function Footer({
               {/* Logo */}
               <Reveal type="fade-up" delay={100}>
                 <div className="flex flex-col items-center md:items-end">
-                  <span
-                    className={`text-4xl font-light tracking-widest uppercase ${colors.textMain} mb-1`}
-                    style={{ fontFamily: 'serif' }}
-                  >
-                    {logoText}
-                  </span>
-                  <span className="text-[0.65rem] tracking-[0.4em] text-theme-accent">
-                    PHOTOGRAPHY
-                  </span>
+                  {settings?.logo && (settings.logo.startsWith('http') || settings.logo.includes('/')) && settings.logo !== 'M. ELAZAB' ? (
+                    <img 
+                      src={settings.logo} 
+                      alt="Brand Logo" 
+                      className="object-contain select-none h-[50px] lg:h-[70px] transition-transform duration-300"
+                    />
+                  ) : (
+                    <BrandLogo 
+                      isDark={colors.bg.includes('black') || colors.bg.includes('zinc')} 
+                      className="scale-75 origin-right"
+                      monogram={settings?.logoMonogram || "AZ"}
+                      title={settings?.logoText || "MOHAMED AZAB"}
+                      subtitle={settings?.logoSubtitle || "PHOTOGRAPHY"}
+                    />
+                  )}
                 </div>
               </Reveal>
 
@@ -96,7 +103,7 @@ export default function Footer({
               <Reveal type="fade-up" delay={120}>
                 <div className="flex gap-6">
                   <a
-                    href={`https://wa.me/${studioWhatsapp}`}
+                    href={sanitizeUrl(`https://wa.me/${studioWhatsapp}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-500 hover:text-theme-accent transition-all hover:scale-110 duration-300"
@@ -106,7 +113,7 @@ export default function Footer({
                     <WhatsAppBrandIcon size={22} />
                   </a>
                   <a
-                    href={settings?.socialLinks?.instagram || "https://www.instagram.com/p/DZD17fbihA7/"}
+                    href={sanitizeUrl(settings?.socialLinks?.instagram || "https://www.instagram.com/p/DZD17fbihA7/")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-500 hover:text-theme-accent transition-all hover:scale-110 duration-300"
@@ -116,7 +123,7 @@ export default function Footer({
                     <InstagramIcon size={22} />
                   </a>
                   <a
-                    href={settings?.socialLinks?.facebook || "https://www.facebook.com/share/1JjRpWMEq6/"}
+                    href={sanitizeUrl(settings?.socialLinks?.facebook || "https://www.facebook.com/share/1JjRpWMEq6/")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-500 hover:text-theme-accent transition-all hover:scale-110 duration-300"
@@ -126,7 +133,7 @@ export default function Footer({
                     <FacebookIcon size={22} />
                   </a>
                   <a
-                    href={settings?.socialLinks?.tiktok || "https://www.tiktok.com/@mohamed_elazab_p.h"}
+                    href={sanitizeUrl(settings?.socialLinks?.tiktok || "https://www.tiktok.com/@mohamed_elazab_p.h")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-zinc-500 hover:text-theme-accent transition-all hover:scale-110 duration-300"

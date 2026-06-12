@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import BrandLogo from '../components/BrandLogo';
 import { isFirebaseConfigured } from '../firebase/firebaseEnv';
 import { saveCollectionToDb, importBackupJson } from '../firebase/dbHelper';
 import { 
@@ -325,6 +326,7 @@ export default function StudioDashboard({
   };
 
   const handleDeleteGalleryItem = (index) => {
+    if (!window.confirm(isRTL ? "هل أنت متأكد من الحذف؟" : "Are you sure you want to delete this item?")) return;
     setFormData((prev) => {
       const updated = { ...prev };
       updated.gallery.splice(index, 1);
@@ -581,6 +583,7 @@ export default function StudioDashboard({
   };
 
   const handleDeleteReview = (index) => {
+    if (!window.confirm(isRTL ? "هل أنت متأكد من الحذف؟" : "Are you sure you want to delete this review?")) return;
     setFormData((prev) => {
       const updated = { ...prev };
       updated.testimonials.splice(index, 1);
@@ -635,6 +638,11 @@ export default function StudioDashboard({
   const handleMediaUpload = async (e, fileNameToOverwrite = null) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert(isRTL ? "عذراً، الحد الأقصى لحجم الملف هو 5 ميجابايت" : "Maximum file size allowed is 5MB.");
+      return;
+    }
 
     setUploadingMedia(true);
     const targetName = fileNameToOverwrite || generateStoragePath(file.name);
@@ -738,16 +746,27 @@ export default function StudioDashboard({
           }`}
         >
           {/* Logo brand & Close button */}
-          <div className="p-6 border-b border-zinc-900 flex justify-between items-center">
-            <div>
-              <span className="text-xl font-light tracking-widest text-white block" style={{ fontFamily: 'serif' }}>
-                {formData.settings?.logo || "M. ELAZAB"}
-              </span>
-              <span className="text-[9px] tracking-[0.3em] text-theme-accent">STUDIO CMS</span>
+          <div className="p-6 border-b border-zinc-900 flex justify-between items-center relative overflow-hidden">
+            <div className="w-full flex flex-col items-center">
+              {formData.settings?.logo && (formData.settings.logo.startsWith('http') || formData.settings.logo.includes('/')) && formData.settings.logo !== 'M. ELAZAB' ? (
+                <img 
+                  src={formData.settings.logo} 
+                  alt="Studio Logo" 
+                  className="object-contain select-none h-[50px] mb-2"
+                />
+              ) : (
+                <BrandLogo 
+                  isDark={true} 
+                  className="scale-75 origin-center mb-1"
+                  monogram={formData.settings?.logoMonogram || "AZ"}
+                  title={formData.settings?.logoText || "MOHAMED AZAB"}
+                  subtitle={formData.settings?.logoSubtitle || "PHOTOGRAPHY"}
+                />
+              )}
             </div>
             <button 
               onClick={() => setSidebarOpen(false)} 
-              className="lg:hidden text-zinc-500 hover:text-white focus:outline-none"
+              className="lg:hidden absolute top-4 right-4 text-zinc-500 hover:text-white focus:outline-none z-50"
             >
               <X size={18} />
             </button>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { isFirebaseConfigured } from '../firebase/firebaseEnv';
 import { Lock, Mail, Key, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
+import BrandLogo from '../components/BrandLogo';
 
 export default function AdminLogin({ colors, isRTL }) {
   const [email, setEmail] = useState('');
@@ -23,7 +24,6 @@ export default function AdminLogin({ colors, isRTL }) {
           if (auth) {
             unsubscribe = onAuthStateChanged(auth, (user) => {
               if (user) {
-                localStorage.setItem('elazab_admin_logged_in', 'true');
                 navigate('/studio/dashboard');
               }
             });
@@ -56,7 +56,6 @@ export default function AdminLogin({ colors, isRTL }) {
         const auth = await getAuthClient();
         if (auth) {
           await signInWithEmailAndPassword(auth, email, password);
-          localStorage.setItem('elazab_admin_logged_in', 'true');
           navigate('/studio/dashboard');
         }
       } catch (err) {
@@ -99,10 +98,13 @@ export default function AdminLogin({ colors, isRTL }) {
               <Lock size={20} className={loading ? "animate-pulse" : ""} />
             </div>
           </div>
-
-          <h1 className="text-2xl font-light mb-1 text-center text-white" style={{ fontFamily: 'serif' }}>
+          <div className="flex justify-center mb-4">
+            <BrandLogo isDark={true} className="scale-75" />
+          </div>
+          
+          <h2 className="text-2xl font-light text-center text-white mb-2" style={{ fontFamily: 'serif' }}>
             {isRTL ? "بوابة استوديو محمد العزب" : "M. Elazab Studio CMS"}
-          </h1>
+          </h2>
           <p className="text-zinc-500 text-[10px] uppercase tracking-widest mb-8 text-center">
             {isRTL ? "تسجيل دخول المشرف الآمن" : "Secure Admin Login Portal"}
           </p>

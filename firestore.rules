@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    function isSuperAdmin() {
+      return request.auth != null && request.auth.token.email == "admin@az.com";
+    }
+
+    match /settings/{document=**} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
+    match /content/{document=**} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
+    match /gallery/{document=**} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
+    match /packages/{document=**} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow update, delete: if isSuperAdmin();
+      allow create: if 
+        request.resource.data.keys().hasAll(['name', 'review', 'rating', 'createdAt']) &&
+        request.resource.data.name is string && request.resource.data.name.size() <= 100 &&
+        request.resource.data.review is string && request.resource.data.review.size() <= 1000 &&
+        request.resource.data.rating is number && request.resource.data.rating >= 1 && request.resource.data.rating <= 5 &&
+        (!request.resource.data.keys().hasAny(['isAdmin', 'role']));
+    }
+  }
+}

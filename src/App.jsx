@@ -60,6 +60,7 @@ export default function App() {
   const [data, setData] = useState(() => getInitialData());
   const [dbLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState('ar');
@@ -145,12 +146,9 @@ export default function App() {
       });
   }, []);
 
-  // Listen to Firebase Auth state changes conditionally to optimize initial bundle
+  // Listen to Firebase Auth state changes unconditionally
   useEffect(() => {
-    const isDashboard = window.location.pathname.startsWith('/studio');
-    const hasAdminSession = localStorage.getItem('elazab_admin_logged_in') === 'true';
-
-    if (isFirebaseConfigured && (isDashboard || hasAdminSession)) {
+    if (isFirebaseConfigured) {
       let unsubscribe = () => {};
       Promise.all([
         import('./firebase/authClient'),
@@ -159,23 +157,21 @@ export default function App() {
         getAuthClient().then((auth) => {
           if (auth) {
             unsubscribe = onAuthStateChanged(auth, (user) => {
-              const loggedIn = Boolean(user);
-              setIsAdmin(loggedIn);
-              if (loggedIn) {
-                localStorage.setItem('elazab_admin_logged_in', 'true');
-              } else {
-                localStorage.removeItem('elazab_admin_logged_in');
-              }
+              setIsAdmin(!!user);
+              setAuthLoading(false);
             });
+          } else {
+            setAuthLoading(false);
           }
-        });
-      });
+        }).catch(() => setAuthLoading(false));
+      }).catch(() => setAuthLoading(false));
       return () => unsubscribe();
     } else {
       // Local/offline fallback using session storage
       const checkDemoAuth = () => {
         const demoAuth = sessionStorage.getItem('elazab_demo_auth') === 'true';
         setIsAdmin(demoAuth);
+        setAuthLoading(false);
       };
       checkDemoAuth();
       const interval = setInterval(checkDemoAuth, 1000);
@@ -201,7 +197,6 @@ export default function App() {
       const auth = await getAuthClient();
       if (auth) {
         await signOut(auth);
-        localStorage.removeItem('elazab_admin_logged_in');
       }
     } else {
       sessionStorage.removeItem('elazab_demo_auth');
@@ -344,7 +339,7 @@ export default function App() {
               <Route
                 path="studio/dashboard"
                 element={
-                  <ProtectedRoute isAdmin={isAdmin} loading={dbLoading}>
+                  <ProtectedRoute isAdmin={isAdmin} loading={dbLoading || authLoading}>
                     <Suspense fallback={<PageLoader isDark={isDark} />}>
                       <StudioDashboard
                         colors={colors}

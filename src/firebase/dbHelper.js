@@ -5,6 +5,9 @@ import { defaultSiteData } from '../data/siteData';
 const defaultGlobalSettings = {
   siteName: "Mohamed Elazab Photography",
   logo: "M. ELAZAB",
+  logoMonogram: "AZ",
+  logoText: "MOHAMED AZAB",
+  logoSubtitle: "PHOTOGRAPHY",
   theme: "luxury-black-gold",
   accentColor: "#d4af37",
   heroImageUrl: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000",

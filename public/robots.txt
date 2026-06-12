@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /gallery
+Allow: /packages
+Allow: /about
+Allow: /contact
+
+Sitemap: https://elazab-photography-9812a.web.app/sitemap.xml

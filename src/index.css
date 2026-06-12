@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Cairo", sans-serif;
+  
+  --color-theme-bg: var(--bg);
+  --color-theme-surface: var(--surface);
+  --color-theme-elevated: var(--surface-elevated);
+  --color-theme-text: var(--text-primary);
+  --color-theme-muted: var(--text-secondary);
+  --color-theme-border: var(--border);
+  --color-theme-accent: var(--accent);
+  --color-theme-accent-hover: var(--accent-hover);
+}
+
+:root {
+  --color-luxury-gold: #ffd700;
+
+  /* Fallback defaults: Rose Gold Luxury */
+  --bg: #0b0707;
+  --bg-gradient: radial-gradient(circle at 50% -20%, rgba(229, 169, 161, 0.15), transparent 45rem), linear-gradient(180deg, #140d0d 0%, #0d0808 100%);
+  --surface: rgba(30, 18, 18, 0.65);
+  --surface-elevated: rgba(45, 28, 28, 0.85);
+  --text-primary: #fff6f3;
+  --text-secondary: #d8c0ba;
+  --border: rgba(255, 180, 170, 0.18);
+  --accent: #ffb4aa;
+  --accent-hover: #ffd1ca;
+  --glass-blur: 16px;
+  
+  --card-bg: rgba(28, 18, 18, 0.6);
+  --card-border: rgba(229, 169, 161, 0.12);
+  --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  --card-hover-bg: rgba(38, 24, 24, 0.8);
+  --card-hover-border: #ffb4aa;
+  --card-hover-shadow: 0 25px 60px rgba(229, 169, 161, 0.2), 0 0 30px rgba(229, 169, 161, 0.1);
+  --card-hover-transform: translateY(-6px);
+  --glass-bg: rgba(20, 12, 12, 0.75);
+  --glass-border: rgba(229, 169, 161, 0.18);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --accent-gradient: linear-gradient(135deg, #e5a9a1 0%, #c48b83 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  color: var(--text-primary);
+  transition:
+    background-color .6s ease,
+    color .6s ease,
+    border-color .6s ease,
+    box-shadow .6s ease;
+}
+
+body {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+}
+
+/* ==========================================
+   LUXURY BLACK GOLD (Royal Premium Style - Dark Default)
+   ========================================== */
+html[data-theme="luxury-black-gold"] {
+  color-scheme: dark;
+  --bg: #0a0907;
+  --bg-gradient: radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.18), transparent 45rem), #0a0907;
+  --surface: rgba(24, 20, 15, 0.75);
+  --surface-elevated: rgba(38, 32, 24, 0.95);
+  --text-primary: #f7f1e3;
+  --text-secondary: #caa87a;
+  --border: rgba(212, 175, 55, 0.22);
+  --accent: #d4af37;
+  --accent-hover: #f3ce5a;
+  --glass-blur: 16px;
+
+  --card-bg: rgba(18, 15, 11, 0.7);
+  --card-border: rgba(212, 175, 55, 0.18);
+  --card-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  --card-hover-bg: rgba(28, 24, 18, 0.85);
+  --card-hover-border: var(--accent);
+  --card-hover-shadow: 0 25px 60px rgba(212, 175, 55, 0.25), 0 0 35px rgba(212, 175, 55, 0.15);
+  --card-hover-transform: translateY(-6px);
+  --glass-bg: rgba(12, 10, 8, 0.8);
+  --glass-border: rgba(212, 175, 55, 0.25);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --accent-gradient: linear-gradient(135deg, #d4af37 0%, #aa8412 100%);
+}
+
+/* ==========================================
+   LUXURY IVORY GOLD (Editorial Bright Premium - Light)
+   ========================================== */
+html[data-theme="luxury-ivory-gold"] {
+  color-scheme: light;
+  --bg: #faf8f5;
+  --bg-gradient: radial-gradient(circle at 50% -20%, rgba(197, 168, 128, 0.15), transparent 40rem), #faf8f5;
+  --surface: rgba(255, 255, 255, 0.85);
+  --surface-elevated: #f4eedf;
+  --text-primary: #2b231a;
+  --text-secondary: #7c7062;
+  --border: rgba(197, 168, 128, 0.25);
+  --accent: #c5a880;
+  --accent-hover: #a68962;
+  --glass-blur: 12px;
+
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(197, 168, 128, 0.2);
+  --card-shadow: 0 12px 35px rgba(197, 168, 128, 0.08);
+  --card-hover-bg: #ffffff;
+  --card-hover-border: var(--accent);
+  --card-hover-shadow: 0 20px 50px rgba(197, 168, 128, 0.22);
+  --card-hover-transform: translateY(-6px);
+  --glass-bg: rgba(250, 248, 245, 0.85);
+  --glass-border: rgba(197, 168, 128, 0.3);
+  --glass-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+  --accent-gradient: linear-gradient(135deg, #c5a880 0%, #a88a61 100%);
+}
+
+/* Universal Premium Surfaces */
+.card-surface {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--card-shadow);
+  transition:
+    background-color .4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color .4s cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter .4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-surface:hover {
+  transform: var(--card-hover-transform);
+  background-color: var(--card-hover-bg);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.glass-surface {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow);
+  transition:
+    background-color .4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color .4s cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter .4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-surface:hover {
+  border-color: var(--card-hover-border);
+  box-shadow: var(--glass-shadow), 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+/* Luxury Glow Effects */
+html[data-theme="luxury-black-gold"] .theme-glow {
+  box-shadow: 0 0 90px rgba(212,175,55,.28);
+}
+html[data-theme="luxury-ivory-gold"] .theme-glow {
+  box-shadow: 0 0 70px rgba(197,168,128,.18);
+}
+
+/* Compatibility Maps */
+html[data-theme="luxury-black-gold"] .text-\[\#d4af37\],
+html[data-theme="luxury-ivory-gold"] .text-\[\#d4af37\],
+html[data-theme="luxury-black-gold"] .group-hover\:text-\[\#d4af37\]:hover,
+html[data-theme="luxury-ivory-gold"] .group-hover\:text-\[\#d4af37\]:hover {
+  color: var(--accent) !important;
+}
+
+html[data-theme="luxury-black-gold"] .bg-\[\#d4af37\],
+html[data-theme="luxury-ivory-gold"] .bg-\[\#d4af37\] {
+  background-color: var(--accent) !important;
+}
+
+html[data-theme="luxury-black-gold"] .border-\[\#d4af37\],
+html[data-theme="luxury-ivory-gold"] .border-\[\#d4af37\] {
+  border-color: var(--accent) !important;
+}
+
+/* Animations */
+@keyframes heroZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+@keyframes scrollDown {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-scroll-down {
+  animation: scrollDown 1.5s infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 6s linear infinite;
+}
+
+/* Reveal Container Effects */
+.reveal-container {
+  overflow: hidden;
+}
+
+.reveal-container.mask-up .reveal-inner {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
+}
+
+.reveal-container.mask-up.is-visible .reveal-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal-container.fade-up .reveal-inner {
+  transform: translateY(40px);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease-out;
+}
+
+.reveal-container.fade-up.is-visible .reveal-inner {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal-container.image-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-container.image-reveal.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.reveal-container.image-reveal .reveal-inner {
+  transform: scale(1.3);
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  height: 100%;
+}
+
+.reveal-container.image-reveal.is-visible .reveal-inner {
+  transform: scale(1);
+}
+
+/* Premium Border Sweep Animation */
+@keyframes borderSweep {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.border-sweep {
+  position: relative;
+}
+
+.border-sweep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  background-size: 200% auto;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.border-sweep:hover::after {
+  opacity: 0.8;
+  animation: borderSweep 3s linear infinite;
+}
+
+/* Fix Chrome date input text/character reversal in RTL mode */
+input[type="date"] {
+  direction: ltr !important;
+  text-align: left;
+}
+
+/* Align date text appropriately when in RTL context, keeping LTR character order */
+[dir="rtl"] input[type="date"] {
+  text-align: right;
+}

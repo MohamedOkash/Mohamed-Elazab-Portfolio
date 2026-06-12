@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mohamed Elazab Photography | استوديو محمد العزب للتصوير</title>
+    
+    <!-- Google Fonts Optimization -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+    <!-- Anti-Flash Theme Loader Script -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('elazab_site_data_v6');
+          var theme = 'rose-gold-luxury';
+          if (saved) {
+            var parsed = JSON.parse(saved);
+            if (parsed.settings && parsed.settings.theme) {
+              theme = parsed.settings.theme;
+            }
+          }
+          var mappedTheme = theme;
+          if (theme === 'gold') mappedTheme = 'gold-luxury';
+          else if (theme === 'dark') mappedTheme = 'dark-luxury';
+          else if (theme === 'light') mappedTheme = 'light-luxury';
+          else if (!theme) mappedTheme = 'rose-gold-luxury';
+          
+          document.documentElement.classList.add(mappedTheme);
+          document.documentElement.setAttribute('data-theme', mappedTheme);
+        } catch (e) {}
+      })();
+    </script>
+
+    <meta name="description" content="استوديو محمد العزب للتصوير فوتوغرافي محترف متخصص في توثيق حفلات الزفاف والخطوبة والمناسبات في المنصورة والدقهلية. بنخلد ذكرياتكم لتعيش العمر كله." />
+    <meta name="keywords" content="محمد العزب, مصور زفاف, مصور المنصورة, تصوير فوتوغرافي, استوديو تصوير, Mohamed Elazab, Wedding Photography, Mansoura Photographer" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
